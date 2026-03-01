@@ -4,7 +4,7 @@ pydantic==2.10.3
 pydantic-settings==2.6.1
 
 # Data
-yfinance==0.2.50
+yfinance>=0.2.54
 pandas==2.2.3
 numpy==1.26.4
 duckdb==1.1.3
@@ -13,8 +13,8 @@ httpx==0.28.1
 # FRED macro data
 fredapi==0.5.2
 
-# TimesFM
-timesfm[torch]==2.0.0
+# TimesFM 2.5 — install from local clone (not on PyPI)
+# Run: pip install -e "../../timesfm[torch]"
 torch==2.5.1
 
 # Science

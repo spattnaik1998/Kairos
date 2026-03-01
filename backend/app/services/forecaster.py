@@ -71,11 +71,11 @@ class ForecastService:
         else:
             point_fc, quantile_fc = self._forecast_plain(price_array, horizon)
 
-        # Build future prices from log-return style — TimesFM forecasts the series
-        # directly (not returns), so we use values as-is
-        point_prices = point_fc[:horizon].tolist()
+        # return_backcast=True means output is [backcast + forecast].
+        # Slice the last `horizon` values to get the actual forecast region.
+        point_prices = point_fc[-horizon:].tolist()
         quantile_prices = {
-            label: quantile_fc[:horizon, i].tolist()
+            label: quantile_fc[-horizon:, i].tolist()
             for i, label in enumerate(Q_LABELS)
         }
 
@@ -188,9 +188,9 @@ class ForecastService:
         for i, (ticker, current_price) in enumerate(valid_tickers):
             results[ticker] = {
                 "current_price": current_price,
-                "point_forecast": point_fc[i][:horizon].tolist(),
+                "point_forecast": point_fc[i][-horizon:].tolist(),
                 "quantiles": {
-                    label: quantile_fc[i][:horizon, j].tolist()
+                    label: quantile_fc[i][-horizon:, j].tolist()
                     for j, label in enumerate(Q_LABELS)
                 },
             }

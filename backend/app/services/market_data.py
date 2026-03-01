@@ -128,6 +128,9 @@ class MarketDataService:
         df["date"] = pd.to_datetime(df["date"]).dt.date
         df["ticker"] = ticker
 
+        for col in ["open", "high", "low", "close", "volume"]:
+            df[col] = df[col].astype(float)
+
         rows = df[["ticker", "date", "open", "high", "low", "close", "volume"]].to_records(index=False)
         self._db.executemany(
             "INSERT OR REPLACE INTO price_cache VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
